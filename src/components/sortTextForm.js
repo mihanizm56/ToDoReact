@@ -10,7 +10,8 @@ const InputFilter = styled.input`
   cursor: pointer;
 `;
 
-export default () => {
-  const _select = React.createRef();
-  return <InputFilter />;
+export default ({listData,filterList}) => {
+  return (
+    <InputFilter type='text' onChange={input =>filterList(input.target.value)}/>
+  )
 };

@@ -1,3 +1,6 @@
+
+//////////////// Additional scripts
+
 export const getFormData = (title, text, time, timeInMs, id) => {
   if (text.value && title.value)
     return {

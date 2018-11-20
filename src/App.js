@@ -5,10 +5,9 @@ import AddForm from "./components/addForm";
 import OpenForm from "./components/openForm";
 import ListItems from "./components/listItems";
 import ItemsMainTitle from "./components/itemsMainTitle";
-import SortForm from "./components/sortForm";
+import SortForm from "./components/sortTextForm";
 
 import { getFormData } from "./scripts/scripts";
-import { changeText } from "./scripts/scripts";
 
 class App extends Component {
   constructor() {
@@ -17,6 +16,8 @@ class App extends Component {
     const listData = localStorage.data ? JSON.parse(localStorage.data) : [];
     this.state = { listData: listData, isOpen: false };
   }
+
+  ///////////// Block of functions
 
   addItem = object => {
     if (object) {
@@ -77,18 +78,25 @@ class App extends Component {
       arrayOfTasks.forEach(element => {
         if (element.id == id) element.title = text;
       });
-
-      return this.setState({ ...this.state, listData: arrayOfTasks });
     }
 
     if (parameter === "task") {
       arrayOfTasks.forEach(element => {
         if (element.id == id) element.text = text;
       });
-
-      return this.setState({ ...this.state, listData: arrayOfTasks });
     }
+    return this.setState({ ...this.state, listData: arrayOfTasks });
   };
+
+  filterList = text => {
+    const arrayOfTasks = [...this.state.listData];
+
+    if (parameter === "title") {
+      arrayOfTasks.forEach(element => {
+        if (text.indexOf(element.text)) console.log('Нашёл совпадение')
+      });
+    } 
+  }
 
   render() {
     const { isOpen, listData } = this.state;
@@ -114,7 +122,7 @@ class App extends Component {
           changeFormStatus={this.changeFormStatus}
           getFormData={getFormData}
         />
-        <SortForm />
+        <SortForm listData={listData} filterList={this.filterList}/>
       </div>
     );
   }
