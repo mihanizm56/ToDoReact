@@ -60,10 +60,10 @@ const InputFilter = styled.textarea`
 `;
 
 const InputTimeFilter = styled.input`
-  width: 83%;
-  margin-top:30px;
+  width: 69%;
   height: 8.4px;
   cursor: pointer;
+  margin-left: 12px;
   box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;
   background: #3071a9;
   border-radius: 1.3px;
@@ -110,10 +110,27 @@ const InputTimeFilter = styled.input`
   &:focus::-ms-fill-upper {
     background: #367ebd;
   }
-
 `;
 
-export default ({ filterList, isFilterOpen, changeFilterStatus,filterTimeList }) => {
+const TimeTitle = styled.p`
+  font-size: 14px;
+  margin-top: 40px;
+`;
+
+const NamesOfDatalistWrapper = styled.div`
+  display: flex;
+  width: 84%;
+  justify-content: space-between;
+`;
+
+const NameBlock = styled.div``;
+
+export default ({
+  filterList,
+  isFilterOpen,
+  changeFilterStatus,
+  filterTimeList
+}) => {
   return isFilterOpen ? (
     <FilterFormWrapper>
       <CloseForm onClick={() => changeFilterStatus(!isFilterOpen)} />
@@ -122,14 +139,26 @@ export default ({ filterList, isFilterOpen, changeFilterStatus,filterTimeList })
         placeholder="Введите искомое название задачи"
         onChange={input => filterList(input.target.value)}
       />
-      <InputTimeFilter type="range" defaultValue={0} list="steplist" step="50" onMouseUp={input => filterTimeList(input.target.value)}/>
+      <TimeTitle> Выберите интервал создания заметки</TimeTitle>
+      <InputTimeFilter
+        type="range"
+        defaultValue={0}
+        list="steplist"
+        step="50"
+        onMouseUp={input => filterTimeList(input.target.value)}
+      />
 
       <datalist id="tickmarks">
-        <option value="0"/>
-        <option value="50"/>
-        <option value="100"/>
+        <option value="0" />
+        <option value="50" />
+        <option value="100" />
       </datalist>
 
+      <NamesOfDatalistWrapper>
+        <NameBlock>позавчера</NameBlock>
+        <NameBlock>вчера</NameBlock>
+        <NameBlock>сейчас</NameBlock>
+      </NamesOfDatalistWrapper>
     </FilterFormWrapper>
   ) : null;
 };

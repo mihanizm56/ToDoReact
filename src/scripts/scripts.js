@@ -21,4 +21,7 @@ export const getTimeInMs = time => {
 };
 
 export const getTime = time =>
-  `${time.getDate()}.${time.getMonth()}.${time.getFullYear()}`;
+  `${time.getDate()}.${time.getMonth() + 1}.${time.getFullYear()}`;
+
+export  const getRightFormatTime = time =>
+   `${time.getFullYear()}-${time.getMonth() + 1}-${time.getDate()}`;

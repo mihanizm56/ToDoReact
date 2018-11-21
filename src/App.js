@@ -9,8 +9,7 @@ import ItemsMainTitle from "./components/itemsMainTitle";
 import SortForm from "./components/sortTextForm";
 import FilterIcon from "./components/filterIcon";
 
-import { getFormData} from "./scripts/scripts";
-// import { getFormData,getTime } from "./scripts/scripts";
+import { getFormData, getRightFormatTime } from "./scripts/scripts";
 
 class App extends Component {
   constructor() {
@@ -21,7 +20,7 @@ class App extends Component {
       listData: listData,
       isOpen: false,
       isFilterOpen: false,
-      value:0
+      value: 0
     };
   }
 
@@ -42,7 +41,9 @@ class App extends Component {
   };
 
   removeItem = id => {
-    const arrayOfTasks = [...this.state.listData].filter(item => item.id !== id);
+    const arrayOfTasks = [...this.state.listData].filter(
+      item => item.id !== id
+    );
     localStorage.data = JSON.stringify(arrayOfTasks);
     return this.setState({ ...this.state, listData: arrayOfTasks });
   };
@@ -101,22 +102,21 @@ class App extends Component {
     return this.setState({ ...this.state, listData: arrayOfTasks });
   };
 
-  filterList = (value,parameter='text') => {
-    console.log(value,parameter)
+  filterList = (value, parameter = "text") => {
     const defaultArray = localStorage.data ? JSON.parse(localStorage.data) : [];
 
     if (parameter) {
-      let arrayOfFilteredTasks = []
-      if(parameter === 'text'){
+      let arrayOfFilteredTasks = [];
+      if (parameter === "text") {
         arrayOfFilteredTasks = defaultArray.filter(
           element => element.text.indexOf(value) >= 0
         );
       }
-      // if(parameter === 'time'){
-      //   arrayOfFilteredTasks = defaultArray.filter(
-      //     element => element.time.indexOf(value) >= 0
-      //   );
-      // }
+      if (parameter === "time") {
+        arrayOfFilteredTasks = defaultArray.filter(
+          element => element.timeInMs <= value
+        );
+      }
 
       return this.setState({ ...this.state, listData: arrayOfFilteredTasks });
     }
@@ -124,23 +124,23 @@ class App extends Component {
   };
 
   filterTimeList = value => {
- console.log(value)
-  //   if(value < 50) {
-  //     let time = new Date('2018-11-19')
-  //     this.filterList(getTime(time),'time')
-  //   }
-  //   else if(value >= 50 && value <= 98) {
-  //     let time = new Date('2018-11-20')
+    if (value === "100") {
+      const today = +new Date();
+      return this.filterList(today, "time");
+    } else if (value === "50") {
+      const yesterday = this.getConstantDay(new Date()) - 86400000;
+      return this.filterList(yesterday, "time");
+    } else {
+      const dayBeforeYesterday = this.getConstantDay(new Date()) - 86400000 * 2;
+      this.filterList(dayBeforeYesterday, "time");
+    }
+  };
 
-  //   }
-  //   else{
-  //     let time = new Date('2018-11-21')
-  //     this.filterList(getTime(time),'time')
-  //   }
-
-  //   return this.setState({ ...this.state,value });
-   }
-
+  getConstantDay = time => {
+    let day = getRightFormatTime(time);
+    let constantDay = new Date(day);
+    return constantDay.getTime();
+  };
 
   render() {
     const { isOpen, listData, isFilterOpen } = this.state;
