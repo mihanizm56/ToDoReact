@@ -56,18 +56,80 @@ const InputFilter = styled.textarea`
   font-size: 22px;
   border: 0.5px solid #d9dfe2;
   border-radius: 10px;
-  outline: 0;
+  outline: none;
 `;
 
-export default ({ filterList, isFilterOpen, changeFilterStatus }) => {
+const InputTimeFilter = styled.input`
+  width: 83%;
+  margin-top:30px;
+  height: 8.4px;
+  cursor: pointer;
+  box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;
+  background: #3071a9;
+  border-radius: 1.3px;
+  border: 0.2px solid #010101;
+
+  &:focus::-webkit-slider-runnable-track {
+    background: transparent;
+  }
+
+  &::-moz-range-track {
+    width: 83%;
+    height: 8.4px;
+    cursor: pointer;
+    box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;
+    background: #3071a9;
+    border-radius: 1.3px;
+    border: 0.2px solid #010101;
+  }
+
+  &::-ms-track {
+    width: 80%;
+    height: 8.4px;
+    cursor: pointer;
+    background: transparent;
+    border-color: transparent;
+    border-width: 16px 0;
+    color: black;
+  }
+  &::-ms-fill-lower {
+    background: #2a6495;
+    border: 0.2px solid #010101;
+    border-radius: 2.6px;
+    box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;
+  }
+  &:focus::-ms-fill-lower {
+    background: black;
+  }
+  &::-ms-fill-upper {
+    background: #3071a9;
+    border: 0.2px solid #010101;
+    border-radius: 2.6px;
+    box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;
+  }
+  &:focus::-ms-fill-upper {
+    background: #367ebd;
+  }
+
+`;
+
+export default ({ filterList, isFilterOpen, changeFilterStatus,filterTimeList }) => {
   return isFilterOpen ? (
     <FilterFormWrapper>
       <CloseForm onClick={() => changeFilterStatus(!isFilterOpen)} />
       <InputFilter
         type="text"
         placeholder="Введите искомое название задачи"
-        onKeyUp={input => filterList(input.target.value)}
+        onChange={input => filterList(input.target.value)}
       />
+      <InputTimeFilter type="range" defaultValue={0} list="steplist" step="50" onMouseUp={input => filterTimeList(input.target.value)}/>
+
+      <datalist id="tickmarks">
+        <option value="0"/>
+        <option value="50"/>
+        <option value="100"/>
+      </datalist>
+
     </FilterFormWrapper>
   ) : null;
 };

@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+
 import "./App.css";
 
 import AddForm from "./components/addForm";
@@ -8,14 +9,20 @@ import ItemsMainTitle from "./components/itemsMainTitle";
 import SortForm from "./components/sortTextForm";
 import FilterIcon from "./components/filterIcon";
 
-import { getFormData } from "./scripts/scripts";
+import { getFormData} from "./scripts/scripts";
+// import { getFormData,getTime } from "./scripts/scripts";
 
 class App extends Component {
   constructor() {
     super();
 
     const listData = localStorage.data ? JSON.parse(localStorage.data) : [];
-    this.state = { listData: listData, isOpen: false, isFilterOpen: false};
+    this.state = {
+      listData: listData,
+      isOpen: false,
+      isFilterOpen: false,
+      value:0
+    };
   }
 
   ///////////// Block of functions
@@ -35,7 +42,7 @@ class App extends Component {
   };
 
   removeItem = id => {
-    const arrayOfTasks = [...this.state.listData].filter(item => item.id != id);
+    const arrayOfTasks = [...this.state.listData].filter(item => item.id !== id);
     localStorage.data = JSON.stringify(arrayOfTasks);
     return this.setState({ ...this.state, listData: arrayOfTasks });
   };
@@ -43,7 +50,7 @@ class App extends Component {
   saveItem = id => {
     const arrayOfTasks = [...this.state.listData];
     arrayOfTasks.forEach(element => {
-      if (element.id == id) element.isMaking = false;
+      if (element.id === id) element.isMaking = false;
     });
     localStorage.data = JSON.stringify(arrayOfTasks);
     return this.setState({ ...this.state, listData: arrayOfTasks });
@@ -52,7 +59,7 @@ class App extends Component {
   changeMakingStatus = id => {
     const arrayOfTasks = [...this.state.listData];
     arrayOfTasks.forEach(element => {
-      if (element.id == id) element.isMaking = true;
+      if (element.id === id) element.isMaking = true;
     });
     localStorage.data = JSON.stringify(arrayOfTasks);
     return this.setState({ ...this.state, listData: arrayOfTasks });
@@ -61,7 +68,7 @@ class App extends Component {
   changeDoneStatus = id => {
     const arrayOfTasks = [...this.state.listData];
     arrayOfTasks.forEach(element => {
-      if (element.id == id) element.done = !element.done;
+      if (element.id === id) element.done = !element.done;
     });
     localStorage.data = JSON.stringify(arrayOfTasks);
     return this.setState({ ...this.state, listData: arrayOfTasks });
@@ -75,38 +82,65 @@ class App extends Component {
   changeFilterStatus = parameter => {
     console.log(parameter);
     return this.setState({ ...this.state, isFilterOpen: parameter });
-  } 
+  };
 
   changeText = (id, text, parameter) => {
     const arrayOfTasks = [...this.state.listData];
 
     if (parameter === "title") {
       arrayOfTasks.forEach(element => {
-        if (element.id == id) element.title = text;
+        if (element.id === id) element.title = text;
       });
     }
 
     if (parameter === "task") {
       arrayOfTasks.forEach(element => {
-        if (element.id == id) element.text = text;
+        if (element.id === id) element.text = text;
       });
     }
     return this.setState({ ...this.state, listData: arrayOfTasks });
   };
 
-  filterList = text => {
-    const defaultArray = localStorage.data ? JSON.parse(localStorage.data) : []
+  filterList = (value,parameter='text') => {
+    console.log(value,parameter)
+    const defaultArray = localStorage.data ? JSON.parse(localStorage.data) : [];
 
-    if(text) {
-      const arrayOfFilteredTasks = defaultArray.filter(
-        element => element.text.indexOf(text) >= 0
-      );
+    if (parameter) {
+      let arrayOfFilteredTasks = []
+      if(parameter === 'text'){
+        arrayOfFilteredTasks = defaultArray.filter(
+          element => element.text.indexOf(value) >= 0
+        );
+      }
+      // if(parameter === 'time'){
+      //   arrayOfFilteredTasks = defaultArray.filter(
+      //     element => element.time.indexOf(value) >= 0
+      //   );
+      // }
 
       return this.setState({ ...this.state, listData: arrayOfFilteredTasks });
     }
-
     return this.setState({ ...this.state, listData: defaultArray });
   };
+
+  filterTimeList = value => {
+ console.log(value)
+  //   if(value < 50) {
+  //     let time = new Date('2018-11-19')
+  //     this.filterList(getTime(time),'time')
+  //   }
+  //   else if(value >= 50 && value <= 98) {
+  //     let time = new Date('2018-11-20')
+
+  //   }
+  //   else{
+  //     let time = new Date('2018-11-21')
+  //     this.filterList(getTime(time),'time')
+  //   }
+
+  //   return this.setState({ ...this.state,value });
+   }
+
 
   render() {
     const { isOpen, listData, isFilterOpen } = this.state;
@@ -130,8 +164,16 @@ class App extends Component {
           changeFormStatus={this.changeFormStatus}
           getFormData={getFormData}
         />
-        <FilterIcon isFilterOpen={isFilterOpen} changeFilterStatus={this.changeFilterStatus}/>
-        <SortForm filterList={this.filterList} isFilterOpen={isFilterOpen} changeFilterStatus={this.changeFilterStatus}/>
+        <FilterIcon
+          isFilterOpen={isFilterOpen}
+          changeFilterStatus={this.changeFilterStatus}
+        />
+        <SortForm
+          filterList={this.filterList}
+          isFilterOpen={isFilterOpen}
+          changeFilterStatus={this.changeFilterStatus}
+          filterTimeList={this.filterTimeList}
+        />
       </div>
     );
   }
