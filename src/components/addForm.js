@@ -58,20 +58,6 @@ const InputTask = styled.textarea`
   outline: 0;
 `;
 
-const InputTime = styled.input`
-  min-width: 70%;
-  max-width: 80%;
-  min-height: 30px;
-  max-height: 100px;
-  padding-left: 10px;
-  margin-top: 10px;
-  font-family: Arial;
-  font-size: 22px;
-  border: none;
-  border-radius: 10px;
-  outline: 0;
-`;
-
 const SaveForm = styled.button`
   display: flex;
   justify-content: center;
@@ -111,7 +97,6 @@ const CloseForm = styled.button`
 `;
 
 export default ({ isOpen, addItem, changeFormStatus, getFormData }) => {
-  console.log("check addForm");
   return isOpen
     ? getForm(addItem, changeFormStatus, isOpen, getFormData)
     : null;

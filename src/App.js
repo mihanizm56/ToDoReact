@@ -2,10 +2,11 @@ import React, { Component } from "react";
 import "./App.css";
 
 import AddForm from "./components/addForm";
-import OpenForm from "./components/openForm";
+import OpenIcon from "./components/openIcon";
 import ListItems from "./components/listItems";
 import ItemsMainTitle from "./components/itemsMainTitle";
 import SortForm from "./components/sortTextForm";
+import FilterIcon from "./components/filterIcon";
 
 import { getFormData } from "./scripts/scripts";
 
@@ -14,7 +15,7 @@ class App extends Component {
     super();
 
     const listData = localStorage.data ? JSON.parse(localStorage.data) : [];
-    this.state = { listData: listData, isOpen: false };
+    this.state = { listData: listData, isOpen: false, isFilterOpen: false};
   }
 
   ///////////// Block of functions
@@ -71,6 +72,11 @@ class App extends Component {
     return this.setState({ ...this.state, isOpen: parameter });
   };
 
+  changeFilterStatus = parameter => {
+    console.log(parameter);
+    return this.setState({ ...this.state, isFilterOpen: parameter });
+  } 
+
   changeText = (id, text, parameter) => {
     const arrayOfTasks = [...this.state.listData];
 
@@ -89,17 +95,21 @@ class App extends Component {
   };
 
   filterList = text => {
-    const arrayOfTasks = [...this.state.listData];
+    const defaultArray = localStorage.data ? JSON.parse(localStorage.data) : []
 
-    if (parameter === "title") {
-      arrayOfTasks.forEach(element => {
-        if (text.indexOf(element.text)) console.log('Нашёл совпадение')
-      });
-    } 
-  }
+    if(text) {
+      const arrayOfFilteredTasks = defaultArray.filter(
+        element => element.text.indexOf(text) >= 0
+      );
+
+      return this.setState({ ...this.state, listData: arrayOfFilteredTasks });
+    }
+
+    return this.setState({ ...this.state, listData: defaultArray });
+  };
 
   render() {
-    const { isOpen, listData } = this.state;
+    const { isOpen, listData, isFilterOpen } = this.state;
     return (
       <div className="App">
         <div className="main-wrapper">
@@ -113,16 +123,15 @@ class App extends Component {
             changeText={this.changeText}
           />
         </div>
-        <OpenForm isOpen={isOpen} changeFormStatus={this.changeFormStatus}>
-          Добавить задачу
-        </OpenForm>
+        <OpenIcon isOpen={isOpen} changeFormStatus={this.changeFormStatus} />
         <AddForm
           isOpen={isOpen}
           addItem={this.addItem}
           changeFormStatus={this.changeFormStatus}
           getFormData={getFormData}
         />
-        <SortForm listData={listData} filterList={this.filterList}/>
+        <FilterIcon isFilterOpen={isFilterOpen} changeFilterStatus={this.changeFilterStatus}/>
+        <SortForm filterList={this.filterList} isFilterOpen={isFilterOpen} changeFilterStatus={this.changeFilterStatus}/>
       </div>
     );
   }
