@@ -1,5 +1,6 @@
 import React from "react";
 import styled from "styled-components";
+import PropTypes from "prop-types";
 
 const ItemsWrapper = styled.div`
   display: flex;
@@ -107,7 +108,7 @@ const DeleteItem = styled.button`
   width: 90px;
 `;
 
-export default ({
+export const ListItems = ({
   listData,
   removeItem,
   saveItem,
@@ -120,8 +121,30 @@ export default ({
       {listData.map(element => {
         return (
           <ItemForm key={element.id}>
-            <TitleData onChange={input =>changeText(element.id,input.target.value,'title')} disabled={element.isMaking ? false : true} defaultValue={element.title} style={element.done ? {fontStyle:'italic',textDecoration:'line-through'} : null}/>
-            <TextData onChange={input =>changeText(element.id,input.target.value,'task')} disabled={element.isMaking ? false : true} defaultValue={element.text} style={element.done ? {fontStyle:'italic',textDecoration:'line-through'} : null} />
+            <TitleData
+              onChange={input =>
+                changeText(element.id, input.target.value, "title")
+              }
+              disabled={element.isMaking ? false : true}
+              defaultValue={element.title}
+              style={
+                element.done
+                  ? { fontStyle: "italic", textDecoration: "line-through" }
+                  : null
+              }
+            />
+            <TextData
+              onChange={input =>
+                changeText(element.id, input.target.value, "task")
+              }
+              disabled={element.isMaking ? false : true}
+              defaultValue={element.text}
+              style={
+                element.done
+                  ? { fontStyle: "italic", textDecoration: "line-through" }
+                  : null
+              }
+            />
             <RowWrapper>
               <TimeData value={element.time} disabled />
               <StatusOfTask
@@ -146,4 +169,13 @@ export default ({
       })}
     </ItemsWrapper>
   );
+};
+
+ListItems.propTypes = {
+  listData: PropTypes.array.isRequired,
+  removeItem: PropTypes.func.isRequired,
+  saveItem: PropTypes.func.isRequired,
+  changeDoneStatus: PropTypes.func.isRequired,
+  changeMakingStatus: PropTypes.func.isRequired,
+  changeText: PropTypes.func.isRequired
 };

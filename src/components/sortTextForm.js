@@ -1,5 +1,6 @@
 import React from "react";
 import styled from "styled-components";
+import PropTypes from "prop-types";
 
 import crossIcon from "../components/img/cross_1.png";
 
@@ -16,15 +17,13 @@ const FilterFormWrapper = styled.div`
   border-radius: 15px;
   border: none;
   background-color: #dfe3e6;
-  animation: fadeInRight 0.5s both;
+  animation: fadeIn 0.5s both;
 
-  @keyframes fadeInRight {
+  @keyframes fadeIn {
     from {
-      transform: translateX(1900px);
       opacity: 0;
     }
     to {
-      transform: translateX(0);
       opacity: 1;
     }
   }
@@ -123,9 +122,9 @@ const NamesOfDatalistWrapper = styled.div`
   justify-content: space-between;
 `;
 
-const NameBlock = styled.div``;
+const NameBlock = styled.p``;
 
-export default ({
+export const SortTextForm = ({
   filterList,
   isFilterOpen,
   changeFilterStatus,
@@ -161,4 +160,11 @@ export default ({
       </NamesOfDatalistWrapper>
     </FilterFormWrapper>
   ) : null;
+};
+
+SortTextForm.propTypes = {
+  filterList: PropTypes.func.isRequired,
+  isFilterOpen: PropTypes.bool.isRequired,
+  changeFilterStatus: PropTypes.func.isRequired,
+  filterTimeList: PropTypes.func.isRequired
 };

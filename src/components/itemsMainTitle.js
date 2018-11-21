@@ -13,6 +13,6 @@ const TitleParagraph = styled.p`
   background-color: #dfe3e6;
 `;
 
-export default () => (
+export const ItemsMainTitle = () => (
     <TitleParagraph>Нужно сделать</TitleParagraph>
 );

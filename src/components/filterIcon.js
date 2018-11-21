@@ -1,5 +1,7 @@
 import React from "react";
 import styled from "styled-components";
+import PropTypes from 'prop-types';
+
 import findIcon from "./img/lupa.svg";
 
 const ButtonFIlterOpen = styled.button`
@@ -27,8 +29,13 @@ const ButtonFIlterOpen = styled.button`
   }
 `;
 
-export default ({ isFilterOpen, changeFilterStatus }) => {
+export const FilterIcon = ({ isFilterOpen, changeFilterStatus }) => {
   return isFilterOpen ? null : (
     <ButtonFIlterOpen onClick={() => changeFilterStatus(!isFilterOpen)} />
   );
 };
+
+FilterIcon.propTypes = {
+  isFilterOpen: PropTypes.bool.isRequired,
+  changeFilterStatus: PropTypes.func.isRequired
+}

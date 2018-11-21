@@ -1,5 +1,7 @@
 import React from "react";
 import styled from "styled-components";
+import PropTypes from 'prop-types';
+
 import plusIcon from "./img/plus.png";
 
 const ButtonOpen = styled.button`
@@ -27,8 +29,13 @@ const ButtonOpen = styled.button`
   }
 `;
 
-export default ({ isOpen, changeFormStatus }) => {
+export const OpenIcon = ({ isOpen, changeFormStatus }) => {
   return isOpen ? null : (
     <ButtonOpen onClick={() => changeFormStatus(!isOpen)} />
   );
 };
+
+OpenIcon.propTypes = {
+  isOpen: PropTypes.bool.isRequired,
+  changeFormStatus: PropTypes.func.isRequired
+}

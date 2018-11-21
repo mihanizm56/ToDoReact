@@ -2,12 +2,12 @@ import React, { Component } from "react";
 
 import "./App.css";
 
-import AddForm from "./components/addForm";
-import OpenIcon from "./components/openIcon";
-import ListItems from "./components/listItems";
-import ItemsMainTitle from "./components/itemsMainTitle";
-import SortForm from "./components/sortTextForm";
-import FilterIcon from "./components/filterIcon";
+import {AddForm} from "./components/addForm";
+import {OpenIcon} from "./components/openIcon";
+import { ListItems } from "./components/listItems";
+import { ItemsMainTitle } from "./components/itemsMainTitle";
+import { SortTextForm } from "./components/sortTextForm";
+import { FilterIcon } from "./components/filterIcon";
 
 import { getFormData, getRightFormatTime } from "./scripts/scripts";
 
@@ -168,7 +168,7 @@ class App extends Component {
           isFilterOpen={isFilterOpen}
           changeFilterStatus={this.changeFilterStatus}
         />
-        <SortForm
+        <SortTextForm
           filterList={this.filterList}
           isFilterOpen={isFilterOpen}
           changeFilterStatus={this.changeFilterStatus}

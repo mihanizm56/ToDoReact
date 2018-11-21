@@ -1,6 +1,8 @@
 import React from "react";
 import { default as UUID } from "node-uuid";
 import styled from "styled-components";
+import PropTypes from 'prop-types';
+
 import { getTimeInMs,getTime } from '../scripts/scripts'
 import crossIcon from "./img/cross_1.png";
 
@@ -16,15 +18,13 @@ const FormWrapper = styled.div`
   height: 260px;
   border-radius: 15px;
   background-color: #dfe3e6;
-  animation: fadeInLeft 0.5s both;
+  animation: fadeIn 0.5s both;
 
-  @keyframes fadeInLeft {
+  @keyframes fadeIn {
     from {
-      transform: translateX(-900px);
       opacity: 0;
     }
     to {
-      transform: translateX(0);
       opacity: 1;
     }
   }
@@ -96,7 +96,7 @@ const CloseForm = styled.button`
   outline:none;
 `;
 
-export default ({ isOpen, addItem, changeFormStatus, getFormData }) => {
+export const AddForm = ({ isOpen, addItem, changeFormStatus, getFormData }) => {
   return isOpen
     ? getForm(addItem, changeFormStatus, isOpen, getFormData)
     : null;
@@ -128,3 +128,11 @@ const getForm = (
   );
 };
  
+
+
+AddForm.propTypes = {
+  isOpen: PropTypes.bool.isRequired,
+  addItem:PropTypes.func.isRequired,
+  changeFormStatus:PropTypes.func.isRequired,
+  getFormData:PropTypes.func.isRequired
+}
