@@ -76,12 +76,10 @@ class App extends Component {
   };
 
   changeFormStatus = parameter => {
-    console.log(parameter);
     return this.setState({ ...this.state, isOpen: parameter });
   };
 
   changeFilterStatus = parameter => {
-    console.log(parameter);
     return this.setState({ ...this.state, isFilterOpen: parameter });
   };
 
